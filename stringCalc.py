@@ -32,7 +32,8 @@ class StringCalculator:
                     value = int(num)
                     if value < 0:
                         negatives.append(value)
-                    int_list.append(value)
+                    elif value <= 1000:
+                        int_list.append(value)
                 except ValueError:
                     continue
 
@@ -55,3 +56,4 @@ if __name__ == "__main__":
         print(calculator.add("1,-2,-3"))
     except ValueError as e:
         print(e)
+    print(calculator.add("4,1004"))  # Expected output: 2
