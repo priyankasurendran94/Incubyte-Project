@@ -25,13 +25,20 @@ class StringCalculator:
         delimiter_regex = "|".join(map(re.escape, custom_delimiters))
         num_list = re.split(delimiter_regex, numbers)
         int_list = []
+        negatives = []
         for num in num_list:
             if num:
                 try:
                     value = int(num)
+                    if value < 0:
+                        negatives.append(value)
                     int_list.append(value)
                 except ValueError:
                     continue
+
+        # Throw exception if negatives exist
+        if negatives:
+            raise ValueError(f"Negative numbers not allowed: {', '.join(map(str, negatives))}")
         return sum(int_list)
     
 if __name__ == "__main__":
@@ -44,3 +51,7 @@ if __name__ == "__main__":
     print(calculator.add("//;\n1;2"))  # Expected output: 3
     print(calculator.add("//[]\n1*2**3"))  # Expected output: 6
     print(calculator.add("//[*][%]\n1*2%3"))  # Expected output: 6
+    try:
+        print(calculator.add("1,-2,-3"))
+    except ValueError as e:
+        print(e)
